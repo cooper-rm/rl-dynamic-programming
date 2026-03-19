@@ -1,1 +1,1 @@
-# DynamicProgrammingReinforcementLearning
+# Dynamic Programming & Reinforcement Learning
