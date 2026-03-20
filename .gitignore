@@ -416,3 +416,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Course content (PDFs, conversation logs, etc.)
+content/
