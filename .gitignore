@@ -418,4 +418,4 @@ FodyWeavers.xsd
 *.msp
 
 # Course content (PDFs, conversation logs, etc.)
-content/
+context/
