@@ -73,7 +73,7 @@ the stochastic environments will be more difficult to find a solution for since
 they incorporate randomness into the action outcomes. The agent will be required 
 to think differently relative to the stochastic environment. 
 
-\newpage
+
 To work through these different DP algorithms, this project utilizes two environments:
 
 \textbf{Custom GridWorld:}
