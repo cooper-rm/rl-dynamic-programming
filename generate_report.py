@@ -116,16 +116,6 @@ a step reward of -1.
 
 \subsection{Key Results \& Analysis}
 
-% PLACEHOLDER: 400-600 words + 2-4 visualizations
-% - NO raw code listings
-% - NO console output dumps
-% - Discussion must address:
-%     - What do results show about algorithm behavior?
-%     - How do they relate to theory from Sutton & Barto? (cite chapters/sections)
-%     - What didn't work as expected? Why?
-%     - How did hyperparameters affect performance?
-%     - What does this teach you about the RL concept?
-
 In the deterministic environment, all four algorithms converged successfully
 to the same optimal policy (Figure~\ref{fig:figure1}). Since the step reward was $-1$, states near the
 goal have values close to $0$, whereas states that are far away from the goal
@@ -199,42 +189,78 @@ for each direction.}
 % - What did you ask the AI to help you with?
 % - What was the first approach suggested?
 
-PLACEHOLDER: Write your initial interaction here.
+% REWRITE IN YOUR OWN WORDS (50-75 words):
+% You asked Claude Code to help build the Lab 2 notebook step by step.
+% Your approach: read the lab doc, create a markdown outline first, then
+% for each section you asked Claude to explain the concept before implementing.
+% This "explain then implement" workflow carried through the whole project.
+% You also asked Claude to log every conversation exchange to a file.
+
+Initially, I asked Claude Code to review the materials for this weeks Lab and create 
+a notebook using markdown only first to outline the exact steps that need to be completed. 
+Then I stepped through each section one at a time asking Claude to explain the concepts and 
+what I need to understand before implementing any code. This allowed me to converese about 
+the ideas in this lab before executing. Additionally, I asked Claude to document verbatim 
+every thing I say and everything it says throughout the interaction in a conversation file
+so I could review what we discussed at anytime. 
+
 
 \subsection{Iteration Cycle}
 
-% PLACEHOLDER: 100-150 words
-% - Document 2-3 specific debugging/iteration cycles
-% - What broke? What did you change? Why?
+\textbf{Iteration 1: Confusing state values with action values}
 
-\textbf{Iteration 1:}
+After completing the code portion, I did not find that Claude made any large mistakes.
+However, I spent a large amount of time reviewing each concept as I completed each
+section of this report. In section one, I reviewed the conversation log and continued
+to ask questions. Something I got wrong that Claude corrected me on was that policy
+evaluation computes the value that each action is worth. My early understanding was
+that each action results in some reward, therefore the value function was in my mind
+concerned with the reward that each action would produce at each state. While this
+sounds right, it is incorrect. An agent takes an action, which results in a transition
+from one state to another. The reward is a result of the transition, but is tracked by
+state. This is because in stochastic environments, one action may lead to multiple
+different states. So, given this correct understanding, I changed my statement to be:
+``Policy evaluation computes the value of each STATE (not action).''
 
-PLACEHOLDER: Describe iteration 1 here.
+\textbf{Iteration 2: Understanding why evaluation needs many sweeps}
 
-\textbf{Iteration 2:}
+When working through the specific algorithms, I had a hard time grasping
+the exact differences between policy evaluation, improvement, and iteration,
+along with value iteration. I understood the general concept but needed to
+get precise. I worked through the differences piece by piece, along with
+reviewing the code, until I finally grasped the concepts. After working
+through simple examples on paper (in the terminal), I finally got the
+differences of each algorithm. Claude explained, and I verified with
+statements like ``So with policy iteration, we run a ton of loops till
+convergence and then run an improvement sweep once, repeating these steps
+until the policy no longer improves.''
 
-PLACEHOLDER: Describe iteration 2 here.
+\textbf{Iteration 3: Pylance type hint errors}
 
-\textbf{Iteration 3:}
-
-PLACEHOLDER: Describe iteration 3 here.
+While I did not find any specific logic errors from Claude's implementation, there were
+linting issues from Pylance. Python's type checker flagged two cases where the code
+used default values that did not match the declared types. I worked with Claude to
+update the type annotations so the linter accepted them without changing any logic.
 
 \subsection{Critical Evaluation}
 
-% PLACEHOLDER: 50-75 words
-% - Where was the AI wrong or incomplete?
-% - How did you verify results?
-
-PLACEHOLDER: Write your critical evaluation here.
+Early on in the discussion of each algorithm, I found Claude to provide vague or
+overly simplified explanations on each topic. For this reason, I had to go deeper
+and push to get more specific until I fully understood the material. I do, however,
+think this was the best way I could have learned and worked through the materials.
+If I had been given an overly complex example, there is a chance I would have
+frozen and spent more time than needed to get a correct understanding. I would
+have likely asked for a much simpler explanation. After everything clicked, I was
+able to verify that all four algorithms converged to the same solution and matched
+the anticipated behavior.
 
 \subsection{Learning Reflection}
 
-% PLACEHOLDER: 50-75 words
-% - What did you learn through the process?
-% - What would you do differently next time?
-
-PLACEHOLDER: Write your learning reflection here.
-
+The most difficult challenge presented during this lab was clearly understanding
+the distinction between each algorithm and the difference between states and actions
+in the value function. Once I specifically worked through each detail of each algorithm,
+the environment visuals made complete sense. I now feel confident in understanding DP
+as it relates to MDPs and how in DP the model must be present.
 
 \section{Section 4: Speaker Notes}
 
@@ -262,6 +288,7 @@ PLACEHOLDER: Write your learning reflection here.
 """
 
 def main():
+    
     # Write temporary .tex file
     with open(TEX_FILE, "w") as f:
         f.write(tex_content)
