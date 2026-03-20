@@ -6,10 +6,10 @@ TEX_FILE = os.path.join(REPORT_DIR, "Cooper_Morgan_Lab2.tex")
 PDF_FILE = os.path.join(REPORT_DIR, "Cooper_Morgan_Lab2.pdf")
 
 # --- IMAGE PATHS (update these to point to your saved plot files) ---
-FIGURE_1 = "PLACEHOLDER_figure1.png"  # e.g., deterministic value/policy heatmap
-FIGURE_2 = "PLACEHOLDER_figure2.png"  # e.g., stochastic value/policy heatmap
-FIGURE_3 = "PLACEHOLDER_figure3.png"  # e.g., convergence comparison plot
-FIGURE_4 = "PLACEHOLDER_figure4.png"  # e.g., FrozenLake results
+FIGURE_1 = "figures/deterministic_value_policy.png"
+FIGURE_2 = "figures/stochastic_value_policy.png"
+FIGURE_3 = "figures/convergence_comparison.png"
+FIGURE_4 = "figures/frozenlake_value_policy.png"
 
 tex_content = r"""
 \documentclass[12pt]{article}
@@ -34,19 +34,6 @@ tex_content = r"""
 
 \section{Section 1: Project Overview}
 
-% PLACEHOLDER: 400-500 words
-% - Problem/Question: What RL problem are you investigating?
-% - Core Concepts: What RL concepts from Sutton & Barto Ch. 4 are you exploring?
-% - Theoretical Grounding: How does this connect to theory from the readings?
-
-% - Environment Description:
-%     - State space (discrete/continuous, dimensions)
-%     - Action space (discrete/continuous, number of actions)
-%     - Reward structure
-%     - Episode termination conditions
-
-% - Expected Behavior: What do you hypothesize will happen and why?
-
 This project is focused on solving a known Markov Decision Process (MDP)
 with dynamic programming (DP). DP requires complete knowledge of the environment
 that the agent will be operating within. This is different than Lab 1 where
@@ -67,7 +54,7 @@ this policy?" and policy improvement asks "given the value of each state, can we
 pick better actions?" 
 
 Policy iteration works by running policy evaluation loops over each state and
-collecting their values. During each loop
+collecting their values. During each loop,
 the reward continues to propagate up the chain of states until the value of
 each state stops changing, and the value function converges. Then a loop is
 run performing policy improvement where the policy is updated by selecting the
@@ -80,6 +67,13 @@ the best value at each state by checking all possible actions. This repeats unti
 then a final loop is run to collect the optimal policy by selecting the action with the
 highest value for each state.
 
+I expect that all four DP algorithms will find the optimal solution, but I 
+anticipate in-place value iteration to work quicker than the rest. I also think 
+the stochastic environments will be more difficult to find a solution for since 
+they incorporate randomness into the action outcomes. The agent will be required 
+to think differently relative to the stochastic environment. 
+
+\newpage
 To work through these different DP algorithms, this project utilizes two environments:
 
 \textbf{Custom GridWorld:}
@@ -101,27 +95,23 @@ To work through these different DP algorithms, this project utilizes two environ
   \item Stochastic by default ($\frac{1}{3}$ probability for each direction)
 \end{itemize}
 
-
-
-
-
 \section{Section 2: Deliverables}
 
 \subsection{GitHub Repository}
 \begin{verbatim}
 GitHub Repository: https://github.com/cooper-rm/rl-dynamic-programming
-
 \end{verbatim}
 
 \subsection{Implementation Summary}
 
-% PLACEHOLDER: 100-150 words
-% - What you implemented (algorithms, environments)
-% - Experimental setup (grid size, gamma, theta, deterministic vs stochastic)
-% - Key hyperparameters chosen
-% - NOT detailed pseudocode or line-by-line methods
-
-PLACEHOLDER: Write your implementation summary here.
+For this project I implemented a custom GridWorld environment following 
+Gymnasium's API with a full transition model P[s][a], specifically to 
+facilitate DP. For GridWorld, I implemented four DP algorithms: synchronous 
+policy iteration, synchronous value iteration, in-place policy iteration, 
+and in-place value iteration. I ran experiments in both deterministic and 
+stochastic environments, and applied all the same ideas to Gymnasium's 
+FrozenLake-v1. The key hyperparameters were gamma=0.99, theta=1e-8, and 
+a step reward of -1.
 
 
 \subsection{Key Results \& Analysis}
@@ -136,33 +126,65 @@ PLACEHOLDER: Write your implementation summary here.
 %     - How did hyperparameters affect performance?
 %     - What does this teach you about the RL concept?
 
-PLACEHOLDER: Write your key results and analysis here.
+In the deterministic environment, all four algorithms converged successfully
+to the same optimal policy (Figure~\ref{fig:figure1}). Since the step reward was $-1$, states near the
+goal have values close to $0$, whereas states that are far away from the goal
+are more negative.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{""" + FIGURE_1 + r"""}
-\caption{PLACEHOLDER: Write an interpretive caption for Figure 1.}
+\caption{Deterministic GridWorld value function (left) and optimal policy (right),
+computed via VI In-Place. The heatmap displays $V(s)$ at each grid cell with obstacles
+marked as X and the goal marked as G. The quiver plot shows the greedy action at
+each non-terminal state.}
 \label{fig:figure1}
 \end{figure}
+
+In the stochastic environment (Figure~\ref{fig:figure2}), the values became even more negative everywhere
+because each action no longer leads to a guaranteed state. The policy also shifted
+towards avoiding risky positions where a slip would cost the agent more penalty.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{""" + FIGURE_2 + r"""}
-\caption{PLACEHOLDER: Write an interpretive caption for Figure 2.}
+\caption{Stochastic GridWorld value function (left) and optimal policy (right),
+computed via VI In-Place with slip\_prob $= 0.1$. Same layout as Figure 1 but with
+80/10/10 transition probabilities. The heatmap shows $V(s)$ and the quiver plot shows
+the greedy action at each state.}
 \label{fig:figure2}
 \end{figure}
+
+As shown in Figure~\ref{fig:figure3}, in-place algorithms converge quicker than
+synchronous algorithms. This is because values propagate faster through all of
+the states in the environment. Faster propagation is a result of in-place updates
+having access to state $N-1$'s new value in the same sweep, whereas synchronous algorithms
+must wait for the entire sweep to finish before seeing state value changes.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{""" + FIGURE_3 + r"""}
-\caption{PLACEHOLDER: Write an interpretive caption for Figure 3.}
+\caption{Convergence curves showing max value change (delta) on a log scale per
+sweep across all three environments. Each line represents one of the four algorithm
+variants (PI Sync, PI In-Place, VI Sync, VI In-Place).}
 \label{fig:figure3}
 \end{figure}
+
+Finally, in the FrozenLake-v1 (Figure~\ref{fig:figure4}) application we see the exact 
+same reaction to determinism, stochasticity, in-place, and synchronous algorithms. Despite
+the differing environment structure, the same algorithms converge the quickest to
+an optimal policy. This validates my hypothesis that all four algorithms
+converge to the same optimal policy regardless of environment structure, and that the
+in-place value iteration algorithm converges the fastest.
+
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\textwidth]{""" + FIGURE_4 + r"""}
-\caption{PLACEHOLDER: Write an interpretive caption for Figure 4.}
+\caption{FrozenLake-v1 value function (left) and optimal policy (right), computed
+via VI In-Place. Holes are marked as X (terminal, reward $= 0$) and the goal as G
+(terminal, reward $= 1$). The environment is stochastic with $\frac{1}{3}$ probability
+for each direction.}
 \label{fig:figure4}
 \end{figure}
 
