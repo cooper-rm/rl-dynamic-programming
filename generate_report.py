@@ -182,10 +182,9 @@ PLACEHOLDER: Write your learning reflection here.
 """
 
 def main():
-    # Write the .tex file
+    # Write temporary .tex file
     with open(TEX_FILE, "w") as f:
         f.write(tex_content)
-    print(f"LaTeX file written to: {TEX_FILE}")
 
     # Compile to PDF (run twice to resolve cross-references)
     for pass_num in (1, 2):
@@ -203,11 +202,11 @@ def main():
         print("pdflatex encountered issues:")
         print(result.stdout[-2000:] if len(result.stdout) > 2000 else result.stdout)
 
-    # Clean up auxiliary files
-    for ext in [".aux", ".log", ".out"]:
-        aux_file = os.path.join(REPORT_DIR, f"Cooper_Morgan_Lab2{ext}")
-        if os.path.exists(aux_file):
-            os.remove(aux_file)
+    # Clean up all LaTeX artifacts (keep only the PDF)
+    for ext in [".tex", ".aux", ".log", ".out"]:
+        artifact = os.path.join(REPORT_DIR, f"Cooper_Morgan_Lab2{ext}")
+        if os.path.exists(artifact):
+            os.remove(artifact)
 
 
 if __name__ == "__main__":
