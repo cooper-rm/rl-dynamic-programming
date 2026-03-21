@@ -181,28 +181,15 @@ for each direction.}
 
 \section{Section 3: AI Use Reflection}
 
-% PLACEHOLDER: 250-350 words total
-
 \subsection{Initial Interaction}
 
-% PLACEHOLDER: 50-75 words
-% - What did you ask the AI to help you with?
-% - What was the first approach suggested?
-
-% REWRITE IN YOUR OWN WORDS (50-75 words):
-% You asked Claude Code to help build the Lab 2 notebook step by step.
-% Your approach: read the lab doc, create a markdown outline first, then
-% for each section you asked Claude to explain the concept before implementing.
-% This "explain then implement" workflow carried through the whole project.
-% You also asked Claude to log every conversation exchange to a file.
-
-Initially, I asked Claude Code to review the materials for this weeks Lab and create 
-a notebook using markdown only first to outline the exact steps that need to be completed. 
-Then I stepped through each section one at a time asking Claude to explain the concepts and 
-what I need to understand before implementing any code. This allowed me to converese about 
-the ideas in this lab before executing. Additionally, I asked Claude to document verbatim 
-every thing I say and everything it says throughout the interaction in a conversation file
-so I could review what we discussed at anytime. 
+Initially, I asked Claude Code to review the materials for this week's lab and create
+a notebook using markdown only first to outline the exact steps that need to be completed.
+Then I stepped through each section one at a time, asking Claude to explain the concepts and
+what I need to understand before implementing any code. This allowed me to converse about
+the ideas in this lab before executing. Additionally, I asked Claude to document verbatim
+everything I say and everything it says throughout the interaction in a conversation file
+so I could review what we discussed at any time.
 
 
 \subsection{Iteration Cycle}
@@ -264,16 +251,14 @@ as it relates to MDPs and how in DP the model must be present.
 
 \section{Section 4: Speaker Notes}
 
-% PLACEHOLDER: 5-7 bullet points for a 3-5 minute presentation
-
 \begin{itemize}
-  \item \textbf{Problem:} PLACEHOLDER
-  \item \textbf{Method:} PLACEHOLDER
-  \item \textbf{Design choice:} PLACEHOLDER
-  \item \textbf{Key result:} PLACEHOLDER
-  \item \textbf{Insight:} PLACEHOLDER
-  \item \textbf{Challenge:} PLACEHOLDER
-  \item \textbf{Connection:} PLACEHOLDER
+  \item \textbf{Problem:} Solving a known MDP with DP.
+  \item \textbf{Method:} Use DP with a complete transition model --- this is about planning, not learning.
+  \item \textbf{Design choice:} Built a custom GridWorld exposing the full transition model and implemented four DP algorithm variants to compare convergence behavior.
+  \item \textbf{Key result:} All four algorithms converged to the same optimal policy and the in-place value iteration converged the fastest.
+  \item \textbf{Insight:} Stochastic environments produce more negative values and more conservative policies since the agent must account for randomness in action outcomes. 
+  \item \textbf{Challenge:} Distinguishing state values from action values and understanding why policy evaluation requires many sweeps to propagate information.
+  \item \textbf{Connection:} Each algorithm is connected under the umbrella of generalized policy iteration.
 \end{itemize}
 
 \section{References}
@@ -281,7 +266,7 @@ as it relates to MDPs and how in DP the model must be present.
 \begin{enumerate}
   \item Sutton, R. S., \& Barto, A. G. (2018). \textit{Reinforcement learning: An introduction} (2nd ed.). MIT Press.
   \item Anthropic. (2025). Claude Code [Large language model CLI tool]. \texttt{https://claude.ai}
-  \item PLACEHOLDER: Add any additional references used.
+  \item OpenAI. (2025). ChatGPT (GPT-4o) [Large language model]. \texttt{https://chat.openai.com}
 \end{enumerate}
 
 \end{document}
